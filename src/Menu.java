@@ -12,36 +12,36 @@ public class Menu {
         System.out.println(" 3. Exit the game");
         System.out.print("Select an option to continue\n=>");
         byte option = sc.nextByte();
-        selectMenuOption(option,1);
+        selectMenuOption(option, 1);
     }
 
     public void selectMenuOption(int option, int stage) throws IOException {
-     switch (stage){
-         case 1:
-             switch (option){
-                 case 1:
-                     start();
-                     break;
-                 case 2:
-                     showScoreboard();
-                     break;
-                 case 3 :
-                     break;
-                 default:
-                     showMainMenu("Wrong choice , try again ...");
-                     break;
-             }
-             break;
-         case 2:
-             switch (option){
-                 case 1 :
-                     // login ...
-                     break;
-                 case 2 :
-                     // sign up ...
-                     break;
-             }
-     }
+        switch (stage) {
+            case 1:
+                switch (option) {
+                    case 1:
+                        start();
+                        break;
+                    case 2:
+                        showScoreboard();
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        showMainMenu("Wrong choice , try again ...");
+                        break;
+                }
+                break;
+            case 2:
+                switch (option) {
+                    case 1:
+                        // login ...
+                        break;
+                    case 2:
+                        // sign up ...
+                        break;
+                }
+        }
     }
 
     private void showScoreboard() {
@@ -50,11 +50,16 @@ public class Menu {
     }
 
     private void start() {
-    clearScreen();
-        System.out.println("start");
+        clearScreen();
+
+        // should check if the user is logged in ...
+
+        Tetris game = new Tetris();
+        game.startGame();
+
     }
 
-    public void clearScreen(){
+    public void clearScreen() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
