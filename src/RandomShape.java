@@ -10,7 +10,12 @@ public class RandomShape {
     public int[][] generateLShape() {
         int[][] shape = new int[maxHeight][maxWidth];
         if (difficulty == 1) {
-
+            for (int i = 0; i < maxHeight; i++) {
+                for (int j = 0; j < maxWidth; j++) {
+                    if (Math.random() > .5)
+                        shape[i][j] = 1;
+                }
+            }
         }
         return shape;
     }
