@@ -19,8 +19,8 @@ public class Tetris {
                 }
             }
         }
-        for (int i = 0; i < 15; i++) {
-            int[][] shape = new RandomShape(1).generateShape();
+        for (int i = 0; i < 10; i++) {
+            int[][] shape = new RandomShape(2).generateShape();
             for (int j = 0; j < shape.length; j++) {
                 for (int k = 0; k < shape[0].length; k++) {
                     if (shape[j][k] == 1)

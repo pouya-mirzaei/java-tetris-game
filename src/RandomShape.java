@@ -15,8 +15,6 @@ public class RandomShape {
 
 
     public int[][] generateShape() {
-
-
         switch (difficulty) {
             case EASY:
                 int easyId = (int) (Math.random() * 2);
@@ -26,10 +24,15 @@ public class RandomShape {
                     case 1:
                         return LShape();
                 }
-                break;
+
             case MEDIUM:
-                int mediumId = (int) (Math.random() * 4 + 2);
+                int mediumId = (int) (Math.random() * 7);
+
                 switch (mediumId) {
+                    case 0:
+                        return lineShape();
+                    case 1:
+                        return LShape();
                     case 2:
                         return ZShape();
                     case 3:
@@ -38,8 +41,9 @@ public class RandomShape {
                         return baton();
                     case 5:
                         return rectangle();
+                    case 6:
+                        return bowl();
                 }
-                break;
             case HARD:
                 return fullyRandomShape();
         }
@@ -54,7 +58,7 @@ public class RandomShape {
     private int[][] lineShape() {
         System.out.println("lineShape");
 
-        int width = (int) (Math.random() * maxWidth - 1) + 1;
+        int width = (int) (Math.random() * (maxWidth + 1) - 1) + 1;
 
         int[][] line = new int[1][width];
         Arrays.fill(line[0], 1);
@@ -87,26 +91,71 @@ public class RandomShape {
          square -> id = 3
          baton -> id = 4
          rectangle -> id = 5
+         bowl -> id = 6
 
      * */
     private int[][] ZShape() {
         System.out.println("ZShape");
-        return new int[1][];
+        return new int[][]{
+                {0, 1, 1},
+                {1, 1, 0}
+        };
     }
 
     private int[][] square() {
         System.out.println("square");
-        return new int[1][];
+
+        int width = (int) (Math.random() * 3 - 2) + 3;
+
+        int[][] square = new int[width][width];
+        for (int i = 0; i < width; i++) {
+            Arrays.fill(square[i], 1);
+        }
+
+        return square;
     }
 
     private int[][] baton() {
         System.out.println("baton");
-        return new int[1][];
+        int width = Math.random() > .5 ? 3 : 5;
+
+        int height;
+        if (width == 3) {
+            height = Math.random() > .5 ? 2 : 3;
+        } else {
+            height = 2;
+        }
+
+        int[][] baton = new int[height][width];
+        for (int i = 0; i < width; i++) {
+            baton[height - 1][i] = 1;
+        }
+        for (int i = 0; i < height; i++) {
+            baton[i][width / 2] = 1;
+        }
+
+        return baton;
     }
 
     private int[][] rectangle() {
         System.out.println("rectangle");
-        return new int[1][];
+        int width = (int) (Math.random() * maxWidth - 2) + 2;
+        int height = (int) (Math.random() * maxHeight - 2) + 2;
+
+        int[][] rectangle = new int[height][width];
+        for (int i = 0; i < height; i++) {
+            Arrays.fill(rectangle[i], 1);
+        }
+
+        return rectangle;
+    }
+
+    public int[][] bowl() {
+        System.out.println("Bowl");
+        return new int[][]{
+                {1, 0, 1},
+                {1, 1, 1},
+        };
     }
 
     /*  hard
