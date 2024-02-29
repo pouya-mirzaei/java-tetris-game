@@ -19,12 +19,6 @@ public class Tetris {
     public void startGame() {
         displayBoard();
 
-        // trash code ...
-        int[][] randShape = new RandomShape(1).generateLShape();
-
-        addNewShape(randShape);
-        System.out.println();
-        displayBoard();
     }
 
     public void addNewShape(int[][] shape) {

@@ -3,19 +3,23 @@ import java.util.Scanner;
 
 public class Menu {
     Scanner sc = new Scanner(System.in);
+    Typewriter logger = new Typewriter(20);
 
-    public void showMainMenu(String message) throws IOException {
+    public void showMainMenu(String message) throws IOException, InterruptedException {
         clearScreen();
-        System.out.println(message);
-        System.out.println(" 1. Start");
-        System.out.println(" 2. Scoreboard");
-        System.out.println(" 3. Exit the game");
-        System.out.print("Select an option to continue\n=>");
+        logger.type(message);
+
+        logger.type("""
+                 1. Start
+                 2. Scoreboard
+                 3. Exit the game
+                Select an option to continue=>"""
+        );
         byte option = sc.nextByte();
         selectMenuOption(option, 1);
     }
 
-    public void selectMenuOption(int option, int stage) throws IOException {
+    public void selectMenuOption(int option, int stage) throws IOException, InterruptedException {
         switch (stage) {
             case 1:
                 switch (option) {
@@ -44,9 +48,9 @@ public class Menu {
         }
     }
 
-    private void showScoreboard() {
+    private void showScoreboard() throws InterruptedException {
         clearScreen();
-        System.out.println("scoreboard");
+        logger.type("scoreboard");
     }
 
     private void start() {
