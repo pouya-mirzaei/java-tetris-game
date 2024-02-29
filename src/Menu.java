@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Menu {
     Scanner sc = new Scanner(System.in);
-    Typewriter logger = new Typewriter(20);
+    Typewriter logger = new Typewriter(5);
 
     public void showMainMenu(String message) throws IOException, InterruptedException {
         clearScreen();
