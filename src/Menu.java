@@ -32,7 +32,7 @@ public class Menu {
         logger.type(result);
         byte id = sc.nextByte();
         if (id - 1 >= items.length || id - 1 < 0) {
-            showSubMenu(items, "Wrong choice . try again ...");
+            return showSubMenu(items, "Wrong choice . try again ...");
         }
         return id;
 

@@ -1,20 +1,24 @@
+import javax.sql.rowset.serial.SerialArray;
 import java.io.IOException;
+import java.util.Scanner;
+import java.util.Stack;
 
 public class Tetris {
-    private final int rows = 20;
+    private final int rows = 15;
     private final int columns = 15;
     private final int maxHeight = 4; // sync with the RandomShape class
     private final int extraGap = 1;
     private final int totalRows = rows + maxHeight + extraGap;
     private final int[][] board = new int[totalRows][columns];
+    Operation op = new Operation();
+    Scanner sc = new Scanner(System.in);
 
-
-    public Tetris() throws InterruptedException {
+    public Tetris() {
         // filling the board with the initial values
-        for (int i = totalRows - rows; i < totalRows; i++) {
+        for (int i = 0; i < totalRows; i++) {
             board[i][0] = 1;
             board[i][columns - 1] = 1;
-            if (i == rows - 1) {
+            if (i == totalRows - 1) {
                 for (int j = 0; j < columns; j++) {
                     board[i][j] = 1;
                 }
@@ -27,33 +31,85 @@ public class Tetris {
         RandomShape randomShape = new RandomShape(difficulty);
 
         while (true) {
-            addNewShape(randomShape.generateShape());
+            int[][] newShape = randomShape.generateShape();
 
-            displayBoard(this.board);
-            Thread.sleep(500);
+            byte k = 0;
+            byte startingIndex = (columns - 2) / 2;
+            addNewShape(newShape, board);
+
+            displayBoard(board);
+            label:
+            while (true) {
+                String move = sc.next();
+
+                switch (move) {
+                    case "m":
+                        while (op.moveDown(board, newShape, k, startingIndex)[0][0] != -1) {
+
+                            k++;
+                            displayBoard(board);
+                            Thread.sleep(10);
+                        }
+                        break label;
+                    case "a":
+                        if (op.moveLeft(board, newShape, k, startingIndex)[0][0] == -1) {
+                            continue;
+                        }
+                        startingIndex--;
+                        displayBoard(board);
+                        if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
+                            break label;
+                        break;
+                    case "s":
+                        if (op.moveDown(board, newShape, k, startingIndex)[0][0] == -1) {
+                            break label;
+                        }
+                        displayBoard(board);
+                        k++;
+                        if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
+                            break label;
+
+                        break;
+                    case "d":
+                        if (op.moveRight(board, newShape, k, startingIndex)[0][0] == -1) {
+                            break label;
+                        }
+                        startingIndex++;
+
+                        if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
+                            break label;
+                        displayBoard(board);
+
+                        break;
+                }
+
+
+            }
+
+
         }
 
 
     }
 
-    public void addNewShape(int[][] shape) {
+    public void addNewShape(int[][] shape, int[][] board) {
         //clearing top part the board
         for (int i = 0; i < maxHeight + extraGap; i++) {
             for (int j = 0; j < columns; j++) {
-                this.board[i][j] = 0;
+                board[i][j] = 0;
             }
         }
         // inserting the new shape
         byte startingIndex = (columns - 2) / 2;
         for (int i = 0; i < shape.length; i++) {
             for (int j = startingIndex; j < shape[0].length + startingIndex; j++)
-                this.board[i][j] = shape[i][j - startingIndex];
+                board[i][j] = shape[i][j - startingIndex];
         }
     }
 
     public void displayBoard(int[][] board) {
         this.clearScreen();
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < totalRows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (board[i][j] == 1) {
                     System.out.print("*");

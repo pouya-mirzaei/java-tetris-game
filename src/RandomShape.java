@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class RandomShape {
@@ -14,6 +16,14 @@ public class RandomShape {
         this.difficulty = difficulty;
     }
 
+    private static boolean allZeros(int[] row) {
+        for (int element : row) {
+            if (element != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public int[][] generateShape() {
         switch (difficulty) {
@@ -83,7 +93,6 @@ public class RandomShape {
 
         return shape;
     }
-
 
     /* medium
          ZShape -> id = 2
@@ -184,7 +193,60 @@ public class RandomShape {
             }
         }
 
-        return shape;
+
+        return clearMatrix(shape);
+    }
+
+    public int[][] clearMatrix(int[][] matrix) {
+        List<Integer> rowsToRemove = new ArrayList<>();
+        List<Integer> colsToRemove = new ArrayList<>();
+
+        // Find rows to remove
+        for (int i = 0; i < matrix.length; i++) {
+            if (allZeros(matrix[i])) {
+                rowsToRemove.add(i);
+            }
+        }
+
+        // Find columns to remove
+        for (int j = 0; j < matrix[0].length; j++) {
+            if (allZerosInColumn(matrix, j)) {
+                colsToRemove.add(j);
+            }
+        }
+
+        // Remove rows and columns from the matrix
+        return removeRowsAndColumns(matrix, rowsToRemove, colsToRemove);
+    }
+
+    private boolean allZerosInColumn(int[][] matrix, int colIndex) {
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i][colIndex] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int[][] removeRowsAndColumns(int[][] matrix, List<Integer> rowsToRemove, List<Integer> colsToRemove) {
+        int rowsRemaining = matrix.length - rowsToRemove.size();
+        int colsRemaining = matrix[0].length - colsToRemove.size();
+        int[][] clearedMatrix = new int[rowsRemaining][colsRemaining];
+
+        int clearedRowIndex = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            if (!rowsToRemove.contains(i)) {
+                int clearedColIndex = 0;
+                for (int j = 0; j < matrix[i].length; j++) {
+                    if (!colsToRemove.contains(j)) {
+                        clearedMatrix[clearedRowIndex][clearedColIndex] = matrix[i][j];
+                        clearedColIndex++;
+                    }
+                }
+                clearedRowIndex++;
+            }
+        }
+        return clearedMatrix;
     }
 
 }
