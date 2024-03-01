@@ -57,7 +57,6 @@ public class RandomShape {
         LShape -> id = 1
     */
     private int[][] lineShape() {
-        System.out.println("lineShape");
 
         int width = (int) (Math.random() * (maxWidth + 1) - 1) + 1;
 
@@ -68,7 +67,6 @@ public class RandomShape {
     }
 
     private int[][] LShape() {
-        System.out.println("LShape");
 
         int width = (int) (Math.random() * maxWidth - 2) + 2;
         int height = (int) (Math.random() * maxHeight - 1) + 1;
@@ -96,7 +94,6 @@ public class RandomShape {
 
      * */
     private int[][] ZShape() {
-        System.out.println("ZShape");
         return new int[][]{
                 {0, 1, 1},
                 {1, 1, 0}
@@ -104,7 +101,6 @@ public class RandomShape {
     }
 
     private int[][] square() {
-        System.out.println("square");
 
         int width = (int) (Math.random() * 3 - 2) + 3;
 
@@ -117,7 +113,6 @@ public class RandomShape {
     }
 
     private int[][] baton() {
-        System.out.println("baton");
         int width = Math.random() > .5 ? 3 : 5;
 
         int height;
@@ -139,7 +134,6 @@ public class RandomShape {
     }
 
     private int[][] rectangle() {
-        System.out.println("rectangle");
         int width = (int) (Math.random() * maxWidth - 2) + 2;
         int height = (int) (Math.random() * maxHeight - 2) + 2;
 
@@ -152,7 +146,6 @@ public class RandomShape {
     }
 
     public int[][] bowl() {
-        System.out.println("Bowl");
         return new int[][]{
                 {1, 0, 1},
                 {1, 1, 1},
@@ -168,7 +161,6 @@ public class RandomShape {
 
         int[][] shape = new int[height][width];
         int starsCount = (int) (Math.random() * (maxStars - 2)) + 3;
-        System.out.println(starsCount);
 
         byte currentStars = 1;
         shape[0][0] = 1; // first
@@ -180,7 +172,7 @@ public class RandomShape {
                 // jumping from the first item
                 if (shape[i][j] == 1) continue;
 
-                boolean shouldPlaceStart = Math.random() > .28;
+                boolean shouldPlaceStart = Math.random() > .25;
                 if (!shouldPlaceStart) continue;
 
 

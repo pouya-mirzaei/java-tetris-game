@@ -19,6 +19,27 @@ public class Menu {
         selectMenuOption(option, 1);
     }
 
+    public byte showSubMenu(String[] items, String message) throws InterruptedException {
+        clearScreen();
+        logger.type(message);
+
+        String result = " ";
+
+        for (int i = 0; i < items.length; i++) {
+            result = result + (i + 1) + ". " + items[i] + "\n ";
+        }
+        result = result.substring(0, result.length() - 2);
+        logger.type(result);
+        byte id = sc.nextByte();
+        if (id - 1 >= items.length || id - 1 < 0) {
+            showSubMenu(items, "Wrong choice . try again ...");
+        }
+        return id;
+
+
+    }
+
+
     public void selectMenuOption(int option, int stage) throws IOException, InterruptedException {
         switch (stage) {
             case 1:
@@ -54,12 +75,12 @@ public class Menu {
     }
 
     private void start() throws InterruptedException {
-        clearScreen();
+        byte itemSelected = showSubMenu(new String[]{"easy", "medium", "hard"}, "Select difficulty");
 
         // should check if the user is logged in ...
 
         Tetris game = new Tetris();
-        game.startGame();
+        game.startGame(itemSelected);
 
     }
 
