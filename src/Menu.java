@@ -53,7 +53,7 @@ public class Menu {
         logger.type("scoreboard");
     }
 
-    private void start() {
+    private void start() throws InterruptedException {
         clearScreen();
 
         // should check if the user is logged in ...

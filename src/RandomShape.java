@@ -8,6 +8,7 @@ public class RandomShape {
     private final int EASY = 1;
     private final int MEDIUM = 2;
     private final int HARD = 3;
+    private final int maxStars = 7;
 
     public RandomShape(int difficulty) {
         this.difficulty = difficulty;
@@ -162,8 +163,36 @@ public class RandomShape {
         random
     */
     private int[][] fullyRandomShape() {
-        System.out.println("fully random");
-        return new int[2][1];
+        int width = (int) (Math.random() * (maxWidth - 2)) + 3;
+        int height = (int) (Math.random() * (maxHeight - 1)) + 2;
+
+        int[][] shape = new int[height][width];
+        int starsCount = (int) (Math.random() * (maxStars - 2)) + 3;
+        System.out.println(starsCount);
+
+        byte currentStars = 1;
+        shape[0][0] = 1; // first
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (currentStars >= starsCount) {
+                    break;
+                }
+                // jumping from the first item
+                if (shape[i][j] == 1) continue;
+
+                boolean shouldPlaceStart = Math.random() > .28;
+                if (!shouldPlaceStart) continue;
+
+
+                if (shape[i][Math.max(j - 1, 0)] == 1 || shape[Math.max(i - 1, 0)][j] == 1) {
+                    shape[i][j] = 1;
+                    currentStars++;
+                }
+
+            }
+        }
+
+        return shape;
     }
 
 }

@@ -8,7 +8,7 @@ public class Tetris {
     private final int totalRows = rows + maxHeight + extraGap;
     private final int[][] board = new int[totalRows][columns];
 
-    public Tetris() {
+    public Tetris() throws InterruptedException {
         // filling the board with the initial values
         for (int i = totalRows - rows; i < totalRows; i++) {
             board[i][0] = 1;
@@ -19,9 +19,10 @@ public class Tetris {
                 }
             }
         }
-        for (int i = 0; i < 10; i++) {
-            int[][] shape = new RandomShape(2).generateShape();
+        for (int i = 0; i < 35; i++) {
+            int[][] shape = new RandomShape(3).generateShape();
             for (int j = 0; j < shape.length; j++) {
+                Thread.sleep(250);
                 for (int k = 0; k < shape[0].length; k++) {
                     if (shape[j][k] == 1)
                         System.out.print("*");
