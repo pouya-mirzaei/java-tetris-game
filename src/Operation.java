@@ -81,8 +81,8 @@ public class Operation {
         return true;
     }
 
-    public int[][] moveDown(int[][] board, int[][] shape, int rowIndex, int colIndex) {
-        if (!isMoveAvailable(board, "m", shape, rowIndex, colIndex)) {
+    public int[][] moveDown(int[][] board, int[][] shape, int rowIndex, int colIndex, boolean shouldCheck) {
+        if (shouldCheck && !isMoveAvailable(board, "m", shape, rowIndex, colIndex)) {
             return new int[][]{{-1}};
         }
 

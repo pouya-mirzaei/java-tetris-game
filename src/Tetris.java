@@ -12,6 +12,7 @@ public class Tetris {
     private final int[][] board = new int[totalRows][columns];
     Operation op = new Operation();
     Scanner sc = new Scanner(System.in);
+    AnalyzeBoard boardCheck = new AnalyzeBoard();
 
     public Tetris() {
         // filling the board with the initial values
@@ -33,10 +34,11 @@ public class Tetris {
         while (true) {
             int[][] newShape = randomShape.generateShape();
 
-            byte k = 0;
-            byte startingIndex = (columns - 2) / 2;
+            byte startingRowIndex = 0;
+            byte startingColIndex = (columns - 2) / 2;
             addNewShape(newShape, board);
 
+            boardCheck.analyze(board);
             displayBoard(board);
             label:
             while (true) {
@@ -44,73 +46,63 @@ public class Tetris {
 
                 switch (move) {
                     case "m":
-                        while (op.moveDown(board, newShape, k, startingIndex)[0][0] != -1) {
+                        while (op.moveDown(board, newShape, startingRowIndex, startingColIndex, true)[0][0] != -1) {
 
-                            k++;
+                            startingRowIndex++;
                             displayBoard(board);
                             Thread.sleep(10);
                         }
                         break label;
                     case "a":
-                        if (op.moveLeft(board, newShape, k, startingIndex)[0][0] == -1) {
+                        if (op.moveLeft(board, newShape, startingRowIndex, startingColIndex)[0][0] == -1) {
                             continue;
                         }
-                        startingIndex--;
-                        op.moveDown(board, newShape, k, startingIndex);
-                        k++;
+                        startingColIndex--;
                         displayBoard(board);
-                        if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
+                        if (!op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex))
                             break label;
                         break;
                     case "s":
-                        if (op.moveDown(board, newShape, k, startingIndex)[0][0] == -1) {
+                        if (op.moveDown(board, newShape, startingRowIndex, startingColIndex, true)[0][0] == -1) {
                             break label;
                         }
                         displayBoard(board);
-                        k++;
-                        if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
+                        startingRowIndex++;
+                        if (!op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex))
                             break label;
 
                         break;
                     case "d":
-                        if (op.moveRight(board, newShape, k, startingIndex)[0][0] == -1) {
+                        if (op.moveRight(board, newShape, startingRowIndex, startingColIndex)[0][0] == -1) {
                             break label;
                         }
-                        startingIndex++;
-                        op.moveDown(board, newShape, k, startingIndex);
-                        k++;
+                        startingColIndex++;
 
 
-                        if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
+                        if (!op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex))
                             break label;
                         displayBoard(board);
 
                         break;
                     case "w":
-                        newShape = op.rotate(board, newShape, k, startingIndex);
+                        newShape = op.rotate(board, newShape, startingRowIndex, startingColIndex);
                         if (newShape[0][0] == -1) {
                             break label;
                         }
 
-                        if (op.isMoveAvailable(board, "m", newShape, k, startingIndex)) {
-                            op.moveDown(board, newShape, k, startingIndex);
-                            k++;
+                        if (op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex)) {
+                            op.moveDown(board, newShape, startingRowIndex, startingColIndex, true);
+                            startingRowIndex++;
                         }
 
-                        if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
+                        if (!op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex))
                             break label;
 
                         displayBoard(board);
                         break;
                 }
-
-
             }
-
-
         }
-
-
     }
 
     public void addNewShape(int[][] shape, int[][] board) {
@@ -140,6 +132,7 @@ public class Tetris {
             }
             System.out.println();
         }
+        System.out.println("Score :" + AnalyzeBoard.score);
     }
 
     public void clearScreen() {
