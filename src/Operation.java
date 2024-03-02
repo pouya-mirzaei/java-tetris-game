@@ -1,6 +1,23 @@
 public class Operation {
 
-    public boolean isMoveAvailable(int[][] board, String move, int[][] shape, int rowIndex, int colIndex) {
+    public static void main(String[] args) {
+        int[][] board = {
+                {1, 0, 0, 0, 1},
+                {1, 0, 0, 0, 1},
+                {1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1},
+        };
+        int[][] shape = {
+                {1, 1},
+                {1, 0},
+                {1, 0},
+        };
+        System.out.println(isMoveAvailable(board, "r", shape, 1, 1));
+    }
+
+    public static boolean isMoveAvailable(int[][] board, String move, int[][] shape, int rowIndex, int colIndex) {
         switch (move) {
             case "r": {
                 boolean lastColToCheck = false;
@@ -11,6 +28,8 @@ public class Operation {
                             if (board[j][i + 1] == 1) {
                                 return false;
                             }
+                        } else if (board[j][i] == 1) {
+                            return false;
                         }
                     }
                     if (lastColToCheck) {
@@ -28,6 +47,8 @@ public class Operation {
                             if (board[j][i - 1] == 1) {
                                 return false;
                             }
+                        } else if (board[j][i] == 1) {
+                            return false;
                         }
                     }
                     if (lastColToCheck) {
@@ -45,6 +66,8 @@ public class Operation {
                             if (board[i + 1][j] == 1) {
                                 return false;
                             }
+                        } else if (board[i][j] == 1) {
+                            return false;
                         }
                     }
                     if (lastRowToCheck) {
@@ -110,6 +133,35 @@ public class Operation {
         }
 
         return board;
+    }
+
+    public int[][] rotate(int[][] board, int[][] shape, int rowIndex, int colIndex) {
+        if (!isMoveAvailable(board, "o", shape, rowIndex, colIndex)) {
+            return new int[][]{{-1}};
+        }
+
+        int[][] rotatedShape = new int[shape[0].length][shape.length];
+        byte iCounter = 0;
+        byte jCounter = 0;
+
+        for (int i = colIndex + shape[0].length - 1; i >= colIndex; i--) {
+            jCounter = 0;
+            for (int j = rowIndex; j < rowIndex + shape.length; j++) {
+                rotatedShape[iCounter][jCounter] = board[j][i];
+                board[j][i] = 0;
+                jCounter++;
+            }
+            iCounter++;
+        }
+
+
+        for (int i = rowIndex; i < rotatedShape.length + rowIndex; i++) {
+            for (int j = colIndex; j < rotatedShape[0].length + colIndex; j++) {
+                board[i][j] = rotatedShape[i - rowIndex][j - colIndex];
+            }
+        }
+
+        return rotatedShape;
     }
 
 

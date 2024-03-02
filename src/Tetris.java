@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class Tetris {
     private final int rows = 15;
-    private final int columns = 15;
+    private final int columns = 10;
     private final int maxHeight = 4; // sync with the RandomShape class
     private final int extraGap = 1;
     private final int totalRows = rows + maxHeight + extraGap;
@@ -56,6 +56,8 @@ public class Tetris {
                             continue;
                         }
                         startingIndex--;
+                        op.moveDown(board, newShape, k, startingIndex);
+                        k++;
                         displayBoard(board);
                         if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
                             break label;
@@ -75,11 +77,30 @@ public class Tetris {
                             break label;
                         }
                         startingIndex++;
+                        op.moveDown(board, newShape, k, startingIndex);
+                        k++;
+
 
                         if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
                             break label;
                         displayBoard(board);
 
+                        break;
+                    case "w":
+                        newShape = op.rotate(board, newShape, k, startingIndex);
+                        if (newShape[0][0] == -1) {
+                            break label;
+                        }
+
+                        if (op.isMoveAvailable(board, "m", newShape, k, startingIndex)) {
+                            op.moveDown(board, newShape, k, startingIndex);
+                            k++;
+                        }
+
+                        if (!op.isMoveAvailable(board, "m", newShape, k, startingIndex))
+                            break label;
+
+                        displayBoard(board);
                         break;
                 }
 
