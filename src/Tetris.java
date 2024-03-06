@@ -4,14 +4,14 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class Tetris {
-    private final int rows = 15;
-    private final int columns = 10;
-    private final int maxHeight = 4; // sync with the RandomShape class
-    private final int extraGap = 1;
-    private final int totalRows = rows + maxHeight + extraGap;
+    public static final int maxHeight = 4; // sync with the RandomShape class
+    private static final int columns = 10;
+    private static final int rows = 15;
+    private static final int extraGap = 2;
+    private static final int totalRows = rows + maxHeight + extraGap;
     private final int[][] board = new int[totalRows][columns];
     Operation op = new Operation();
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = Main.sc;
     AnalyzeBoard boardCheck = new AnalyzeBoard();
 
     public Tetris() {
@@ -26,6 +26,21 @@ public class Tetris {
             }
         }
 
+    }
+
+    public static void displayBoard(int[][] board) {
+        Menu.clearScreen();
+        for (int i = 0; i < totalRows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (board[i][j] == 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("Score :" + AnalyzeBoard.score);
     }
 
     public void startGame(byte difficulty) throws InterruptedException {
@@ -46,12 +61,7 @@ public class Tetris {
 
                 switch (move) {
                     case "m":
-                        while (op.moveDown(board, newShape, startingRowIndex, startingColIndex, true)[0][0] != -1) {
-
-                            startingRowIndex++;
-                            displayBoard(board);
-                            Thread.sleep(10);
-                        }
+                        op.fullMoveDown(board, newShape, startingRowIndex, startingColIndex);
                         break label;
                     case "a":
                         if (op.moveLeft(board, newShape, startingRowIndex, startingColIndex)[0][0] == -1) {
@@ -120,33 +130,5 @@ public class Tetris {
         }
     }
 
-    public void displayBoard(int[][] board) {
-        this.clearScreen();
-        for (int i = 0; i < totalRows; i++) {
-            for (int j = 0; j < columns; j++) {
-                if (board[i][j] == 1) {
-                    System.out.print("*");
-                } else {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println("Score :" + AnalyzeBoard.score);
-    }
-
-    public void clearScreen() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-
-            // Now your console is cleared
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

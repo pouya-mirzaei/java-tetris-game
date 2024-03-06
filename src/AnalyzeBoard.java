@@ -1,11 +1,11 @@
 public class AnalyzeBoard {
     public static int score;
     private final int maxHeight = 4; // sync with the Tetris class
-    private final int extraGap = 1; // sync with the Tetris class
+    private final int extraGap = 2; // sync with the Tetris class
     Operation op = new Operation();
 
 
-    public int[][] analyze(int[][] board) {
+    public void analyze(int[][] board) {
         for (int i = maxHeight + extraGap - 1; i < board.length - 1; i++) {
 
 
@@ -19,7 +19,6 @@ public class AnalyzeBoard {
             }
         }
 
-        return board;
     }
 
 

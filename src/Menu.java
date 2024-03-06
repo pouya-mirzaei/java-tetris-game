@@ -2,8 +2,22 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = Main.sc;
     Typewriter logger = new Typewriter(5);
+
+    public static void clearScreen() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+
+            // Now your console is cleared
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void showMainMenu(String message) throws IOException, InterruptedException {
         clearScreen();
@@ -38,7 +52,6 @@ public class Menu {
 
 
     }
-
 
     public void selectMenuOption(int option, int stage) throws IOException, InterruptedException {
         switch (stage) {
@@ -82,20 +95,6 @@ public class Menu {
         Tetris game = new Tetris();
         game.startGame(itemSelected);
 
-    }
-
-    public void clearScreen() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-
-            // Now your console is cleared
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
 

@@ -1,5 +1,6 @@
 public class Operation {
 
+    /* test code
     public static void main(String[] args) {
         int[][] board = {
                 {1, 0, 0, 0, 1},
@@ -16,6 +17,7 @@ public class Operation {
         };
         System.out.println(isMoveAvailable(board, "r", shape, 1, 1));
     }
+    */
 
     public static boolean isMoveAvailable(int[][] board, String move, int[][] shape, int rowIndex, int colIndex) {
         switch (move) {
@@ -162,6 +164,15 @@ public class Operation {
         }
 
         return rotatedShape;
+    }
+
+    public void fullMoveDown(int[][] board, int[][] shape, int rowIndex, int colIndex) throws InterruptedException {
+        while (moveDown(board, shape, rowIndex, colIndex, true)[0][0] != -1) {
+
+            rowIndex++;
+            Tetris.displayBoard(board);
+            Thread.sleep(5);
+        }
     }
 
 

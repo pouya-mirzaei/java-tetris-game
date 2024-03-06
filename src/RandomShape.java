@@ -6,7 +6,7 @@ import java.util.Random;
 public class RandomShape {
     private final int difficulty; //1 => easy , 2 => medium , 3 => hard
     private final int maxWidth = 5;
-    private final int maxHeight = 4;
+    private final int maxHeight = Tetris.maxHeight;
     private final int EASY = 1;
     private final int MEDIUM = 2;
     private final int HARD = 3;
@@ -68,7 +68,7 @@ public class RandomShape {
     */
     private int[][] lineShape() {
 
-        int width = (int) (Math.random() * (maxWidth + 1) - 1) + 1;
+        int width = (int) (Math.random() * (maxWidth - 1)) + 1;
 
         int[][] line = new int[1][width];
         Arrays.fill(line[0], 1);
@@ -78,8 +78,8 @@ public class RandomShape {
 
     private int[][] LShape() {
 
-        int width = (int) (Math.random() * maxWidth - 2) + 2;
-        int height = (int) (Math.random() * maxHeight - 1) + 1;
+        int width = (int) (Math.random() * (maxWidth - 2)) + 2;
+        int height = (int) (Math.random() * (maxHeight - 1)) + 1;
 
         int[][] shape = new int[height][width];
 
@@ -143,8 +143,8 @@ public class RandomShape {
     }
 
     private int[][] rectangle() {
-        int width = (int) (Math.random() * maxWidth - 2) + 2;
-        int height = (int) (Math.random() * maxHeight - 2) + 2;
+        int width = (int) (Math.random() * (maxWidth - 2)) + 1;
+        int height = (int) (Math.random() * (maxHeight - 2)) + 1;
 
         int[][] rectangle = new int[height][width];
         for (int i = 0; i < height; i++) {
