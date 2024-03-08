@@ -166,12 +166,14 @@ public class Operation {
         return rotatedShape;
     }
 
-    public void fullMoveDown(int[][] board, int[][] shape, int rowIndex, int colIndex) throws InterruptedException {
+    public void fullMoveDown(int[][] board, int[][] shape, int rowIndex, int colIndex, boolean showWhileMoving) throws InterruptedException {
         while (moveDown(board, shape, rowIndex, colIndex, true)[0][0] != -1) {
 
             rowIndex++;
-            Tetris.displayBoard(board);
-            Thread.sleep(5);
+            if (showWhileMoving) {
+                Tetris.displayBoard(board);
+                Thread.sleep(5);
+            }
         }
     }
 

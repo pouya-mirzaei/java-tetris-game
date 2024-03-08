@@ -5,9 +5,10 @@ public class AnalyzeBoard {
     Operation op = new Operation();
 
 
-    public void analyze(int[][] board) {
-        for (int i = maxHeight + extraGap - 1; i < board.length - 1; i++) {
+    public void analyze(int[][] board) throws InterruptedException {
 
+        // check if any row is full
+        for (int i = maxHeight + extraGap; i < board.length - 1; i++) {
 
             boolean isRowFull = true;
             for (int j = 1; j < board[0].length - 1; j++) {
@@ -19,24 +20,43 @@ public class AnalyzeBoard {
             }
         }
 
+        // check if any col is complete
+        for (int i = 1; i < board[0].length - 1; i++) {
+            if (board[maxHeight + extraGap][i] == 1) {
+                handleFullColumn(board, i);
+            }
+        }
+        if (score < 0) {
+            Tetris.isGameOver = true;
+
+        }
+
     }
 
 
-    public void handleFullRow(int[][] board, int row) {
+    public void handleFullRow(int[][] board, int row) throws InterruptedException {
         addScore(100);
         for (int j = 1; j < board[0].length - 1; j++) {
             board[row][j] = 0;
         }
-
-        int[][] upperRow = new int[row][board[0].length - 2];
-        for (int j = 0; j < row; j++) {
-            for (int k = 0; k < board[0].length - 2; k++) {
-                upperRow[j][k] = board[j][k];
+        for (int i = 1; i < board[0].length - 1; i++) {
+            int[][] col = new int[row][1];
+            for (int j = 0; j < row; j++) {
+                col[j][0] = board[j][i];
             }
+
+            op.fullMoveDown(board, col, 0, i, true);
+
         }
+        analyze(board);
 
-        op.moveDown(board, upperRow, 0, 1, false);
+    }
 
+    public void handleFullColumn(int[][] board, int colIndex) {
+        for (int i = 0; i < board.length - 1; i++) {
+            board[i][colIndex] = 0;
+        }
+        addScore(-10);
     }
 
 

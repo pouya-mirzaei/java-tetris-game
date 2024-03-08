@@ -9,7 +9,9 @@ public class Tetris {
     private static final int rows = 15;
     private static final int extraGap = 2;
     private static final int totalRows = rows + maxHeight + extraGap;
+    public static boolean isGameOver = false;
     private final int[][] board = new int[totalRows][columns];
+
     Operation op = new Operation();
     Scanner sc = Main.sc;
     AnalyzeBoard boardCheck = new AnalyzeBoard();
@@ -47,13 +49,19 @@ public class Tetris {
         RandomShape randomShape = new RandomShape(difficulty);
 
         while (true) {
+            boardCheck.analyze(board);
+
+            if (isGameOver) {
+                displayBoard(board);
+                System.out.println("you suck at this game bitch");
+                break;
+            }
             int[][] newShape = randomShape.generateShape();
 
             byte startingRowIndex = 0;
             byte startingColIndex = (columns - 2) / 2;
             addNewShape(newShape, board);
 
-            boardCheck.analyze(board);
             displayBoard(board);
             label:
             while (true) {
@@ -61,7 +69,7 @@ public class Tetris {
 
                 switch (move) {
                     case "m":
-                        op.fullMoveDown(board, newShape, startingRowIndex, startingColIndex);
+                        op.fullMoveDown(board, newShape, startingRowIndex, startingColIndex, true);
                         break label;
                     case "a":
                         if (op.moveLeft(board, newShape, startingRowIndex, startingColIndex)[0][0] == -1) {
