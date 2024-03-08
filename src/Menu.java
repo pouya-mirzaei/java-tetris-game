@@ -2,8 +2,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
-    Scanner sc = Main.sc;
     Typewriter logger = new Typewriter(5);
+    Scanner sc = Main.sc;
 
     public static void clearScreen() {
         try {
@@ -21,13 +21,13 @@ public class Menu {
 
     public void showMainMenu(String message) throws IOException, InterruptedException {
         clearScreen();
-        logger.type(message);
+        logger.type(message, true);
 
         logger.type("""
                  1. Start
                  2. Scoreboard
                  3. Exit the game
-                Select an option to continue=>"""
+                Select an option to continue=>""", true
         );
         byte option = sc.nextByte();
         selectMenuOption(option, 1);
@@ -35,7 +35,7 @@ public class Menu {
 
     public byte showSubMenu(String[] items, String message) throws InterruptedException {
         clearScreen();
-        logger.type(message);
+        logger.type(message, true);
 
         String result = " ";
 
@@ -43,7 +43,7 @@ public class Menu {
             result = result + (i + 1) + ". " + items[i] + "\n ";
         }
         result = result.substring(0, result.length() - 2);
-        logger.type(result);
+        logger.type(result, true);
         byte id = sc.nextByte();
         if (id - 1 >= items.length || id - 1 < 0) {
             return showSubMenu(items, "Wrong choice . try again ...");
@@ -84,7 +84,7 @@ public class Menu {
 
     private void showScoreboard() throws InterruptedException {
         clearScreen();
-        logger.type("scoreboard");
+        logger.type("scoreboard", true);
     }
 
     private void start() throws InterruptedException {

@@ -171,7 +171,7 @@ public class Operation {
 
             rowIndex++;
             if (showWhileMoving) {
-                Tetris.displayBoard(board);
+                Tetris.displayBoard(board, "");
                 Thread.sleep(5);
             }
         }

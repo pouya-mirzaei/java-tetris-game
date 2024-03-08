@@ -5,7 +5,10 @@ public class AnalyzeBoard {
     Operation op = new Operation();
 
 
-    public void analyze(int[][] board) throws InterruptedException {
+    public String analyze(int[][] board) throws InterruptedException {
+        int currentScore = score;
+        int scoreEarned = 0;
+        String status = "";
 
         // check if any row is full
         for (int i = maxHeight + extraGap; i < board.length - 1; i++) {
@@ -17,20 +20,30 @@ public class AnalyzeBoard {
             }
             if (isRowFull) {
                 handleFullRow(board, i);
+                scoreEarned = score - currentScore;
+                status = "Nice, You earned " + scoreEarned + " points!";
             }
         }
 
+        currentScore = score;
         // check if any col is complete
         for (int i = 1; i < board[0].length - 1; i++) {
             if (board[maxHeight + extraGap][i] == 1) {
                 handleFullColumn(board, i);
             }
         }
-        if (score < 0) {
-            Tetris.isGameOver = true;
-
+        // handling the status message
+        if (status.isEmpty() && currentScore != score) {
+            status = "You lost " + (score - currentScore) + " points:(";
+        } else if (!status.isEmpty() && currentScore != score) {
+            status = "You got " + scoreEarned + " points\nBut also lost" + (score - currentScore) + "points :|";
         }
 
+        if (score < 0) {
+            Tetris.isGameOver = true;
+        }
+
+        return status;
     }
 
 

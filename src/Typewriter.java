@@ -6,7 +6,11 @@ public class Typewriter {
         this.delay = delay;
     }
 
-    public void type(String message) throws InterruptedException {
+    public void type(String message, boolean useAnimation) throws InterruptedException {
+        if (!useAnimation) {
+            System.out.println(message);
+            return;
+        }
         for (char c : message.toCharArray()) {
             System.out.print(c);
             Thread.sleep(delay);

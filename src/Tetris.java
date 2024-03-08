@@ -10,8 +10,8 @@ public class Tetris {
     private static final int extraGap = 2;
     private static final int totalRows = rows + maxHeight + extraGap;
     public static boolean isGameOver = false;
+    static Typewriter logger = new Typewriter(10);
     private final int[][] board = new int[totalRows][columns];
-
     Operation op = new Operation();
     Scanner sc = Main.sc;
     AnalyzeBoard boardCheck = new AnalyzeBoard();
@@ -30,7 +30,7 @@ public class Tetris {
 
     }
 
-    public static void displayBoard(int[][] board) {
+    public static void displayBoard(int[][] board, String message) throws InterruptedException {
         Menu.clearScreen();
         for (int i = 0; i < totalRows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -42,18 +42,18 @@ public class Tetris {
             }
             System.out.println();
         }
-        System.out.println("Score :" + AnalyzeBoard.score);
+        logger.type("Score :" + AnalyzeBoard.score, false);
+        logger.type(message, true);
     }
 
     public void startGame(byte difficulty) throws InterruptedException {
         RandomShape randomShape = new RandomShape(difficulty);
 
         while (true) {
-            boardCheck.analyze(board);
+            String message = boardCheck.analyze(board);
 
             if (isGameOver) {
-                displayBoard(board);
-                System.out.println("you suck at this game bitch");
+                displayBoard(board, "you suck at this game bitch\nYour score is negative so you lost you fucking idiot");
                 break;
             }
             int[][] newShape = randomShape.generateShape();
@@ -62,7 +62,7 @@ public class Tetris {
             byte startingColIndex = (columns - 2) / 2;
             addNewShape(newShape, board);
 
-            displayBoard(board);
+            displayBoard(board, message);
             label:
             while (true) {
                 String move = sc.next();
@@ -76,7 +76,7 @@ public class Tetris {
                             continue;
                         }
                         startingColIndex--;
-                        displayBoard(board);
+                        displayBoard(board, "");
                         if (!op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex))
                             break label;
                         break;
@@ -84,7 +84,7 @@ public class Tetris {
                         if (op.moveDown(board, newShape, startingRowIndex, startingColIndex, true)[0][0] == -1) {
                             break label;
                         }
-                        displayBoard(board);
+                        displayBoard(board, "");
                         startingRowIndex++;
                         if (!op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex))
                             break label;
@@ -99,7 +99,7 @@ public class Tetris {
 
                         if (!op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex))
                             break label;
-                        displayBoard(board);
+                        displayBoard(board, "");
 
                         break;
                     case "w":
@@ -116,7 +116,7 @@ public class Tetris {
                         if (!op.isMoveAvailable(board, "m", newShape, startingRowIndex, startingColIndex))
                             break label;
 
-                        displayBoard(board);
+                        displayBoard(board, "");
                         break;
                 }
             }
