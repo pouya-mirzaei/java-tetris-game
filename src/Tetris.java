@@ -92,7 +92,7 @@ public class Tetris {
                         break;
                     case "d":
                         if (op.moveRight(board, newShape, startingRowIndex, startingColIndex)[0][0] == -1) {
-                            break label;
+                            continue;
                         }
                         startingColIndex++;
 

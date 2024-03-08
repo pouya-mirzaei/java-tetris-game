@@ -27,6 +27,9 @@ public class Operation {
                     for (int j = rowIndex; j < rowIndex + shape.length; j++) {
                         if (shape[j - rowIndex][i - colIndex] == 1) {
                             lastColToCheck = true;
+                            if (i == board[0].length - 1) {
+                                return false;
+                            }
                             if (board[j][i + 1] == 1) {
                                 return false;
                             }
@@ -46,6 +49,9 @@ public class Operation {
                     for (int j = rowIndex; j < shape.length + rowIndex; j++) {
                         if (shape[j - rowIndex][i - colIndex] == 1) {
                             lastColToCheck = true;
+                            if (i == 0) {
+                                return false;
+                            }
                             if (board[j][i - 1] == 1) {
                                 return false;
                             }
@@ -114,8 +120,14 @@ public class Operation {
 
         for (int i = colIndex; i < colIndex + shape[0].length; i++) {
             for (int j = rowIndex; j < rowIndex + shape.length; j++) {
-                board[j][i - 1] = board[j][i];
-                board[j][i] = board[j][i + 1];
+                if (i == board[0].length - 2 || i == board[0].length - 1) {
+                    board[j][i - 1] = board[j][i];
+                    board[j][i] = 0;
+                } else {
+                    board[j][i - 1] = board[j][i];
+                    board[j][i] = board[j][i + 1];
+
+                }
             }
         }
 
@@ -129,8 +141,13 @@ public class Operation {
 
         for (int i = colIndex + shape[0].length - 1; i >= colIndex; i--) {
             for (int j = rowIndex; j < rowIndex + shape.length; j++) {
-                board[j][i + 1] = board[j][i];
-                board[j][i] = board[j][i - 1];
+                if (i == 1 || i == 0) {
+                    board[j][i + 1] = board[j][i];
+                    board[j][i] = 0;
+                } else {
+                    board[j][i + 1] = board[j][i];
+                    board[j][i] = board[j][i - 1];
+                }
             }
         }
 
