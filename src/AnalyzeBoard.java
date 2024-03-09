@@ -61,6 +61,7 @@ public class AnalyzeBoard {
             op.fullMoveDown(board, col, 0, i, true);
 
         }
+        Thread.sleep(100);
         analyze(board);
 
     }

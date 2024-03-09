@@ -130,6 +130,9 @@ public class Operation {
                 }
             }
         }
+        for (int i = rowIndex; i < rowIndex + shape.length; i++) {
+            board[i][colIndex + shape[0].length - 1] = 0;
+        }
 
         return board;
     }
@@ -149,6 +152,10 @@ public class Operation {
                     board[j][i] = board[j][i - 1];
                 }
             }
+        }
+
+        for (int i = rowIndex; i < rowIndex + shape.length; i++) {
+            board[i][colIndex] = 0;
         }
 
         return board;
