@@ -1,8 +1,13 @@
 # java-tetris-game
 
-## todos
+## Usage : 
+- Clone the app using this command
 
-- menu class refactor
-    - [-] make clearscreen method statis
-    - [ ] bring menu methods in the main class ()
-- use only one scanner
+```shell
+git clone https://github.com/pouya-mirzaei/java-tetris-game.git
+```
+- Open a terminal in the "src" folder and run this commad
+```shell
+ren.bat
+```  
+- Enjoy the game :)
