@@ -1,7 +1,0 @@
-rotate :
-    for (int i = colIndex + shape[0].length - 1; i >= colIndex; i--) {
-                        for (int j = rowIndex; j < rowIndex + shape.length; j++) {
-                            System.out.print(board[j][i] + " ");
-                        }
-                        System.out.println();
-                    }
