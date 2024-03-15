@@ -54,11 +54,16 @@ public class AnalyzeBoard {
         }
         for (int i = 1; i < board[0].length - 1; i++) {
             int[][] col = new int[row][1];
+            boolean shouldMoveDown = false;
             for (int j = 0; j < row; j++) {
                 col[j][0] = board[j][i];
+                if (board[j][i] == 1) {
+                    shouldMoveDown = true;
+                }
             }
 
-            op.fullMoveDown(board, col, 0, i, true);
+            if (shouldMoveDown)
+                op.fullMoveDown(board, col, 0, i, true);
 
         }
         Thread.sleep(100);

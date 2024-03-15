@@ -1,23 +1,25 @@
 public class Operation {
 
-    /* test code
+    //     test code
     public static void main(String[] args) {
         int[][] board = {
                 {1, 0, 0, 0, 1},
                 {1, 0, 0, 0, 1},
-                {1, 0, 1, 0, 1},
-                {1, 0, 1, 0, 1},
                 {1, 0, 0, 0, 1},
-                {1, 1, 1, 1, 1},
+                {1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1},
+                {1, 1, 0, 1, 1},
         };
         int[][] shape = {
-                {1, 1},
-                {1, 0},
-                {1, 0},
+                {1, 1, 1},
+                {1, 0, 0},
+                {1, 0, 0},
         };
-        System.out.println(isMoveAvailable(board, "r", shape, 1, 1));
+//        moveDown(board, shape, 2, 1, false);
+        System.out.println(isMoveAvailable(board, "m", shape, 1, 1));
+//        System.out.println(isMoveAvailable(board, "m", shape, 2, 1));
     }
-    */
+
 
     public static boolean isMoveAvailable(int[][] board, String move, int[][] shape, int rowIndex, int colIndex) {
         switch (move) {
@@ -74,7 +76,7 @@ public class Operation {
                             if (board[i + 1][j] == 1) {
                                 return false;
                             }
-                        } else if (board[i][j] == 1) {
+                        } else if (board[i][j] == 1 && shape[i - rowIndex - 1][j - colIndex] == 1) {
                             return false;
                         }
                     }
@@ -83,7 +85,6 @@ public class Operation {
                     }
                 }
             }
-            break;
 
         }
         return true;
@@ -99,12 +100,14 @@ public class Operation {
                 if (i >= board.length || board[i][j] == 0) {
                     continue;
                 }
-                board[i + 1][j] = board[i][j];
-                if (i != 0) {
-                    board[i][j] = board[i - 1][j];
+                if (shape[i - rowIndex][j - colIndex] == 1) {
+                    board[i + 1][j] = board[i][j];
+                    if (i != 0) {
+                        board[i][j] = board[i - 1][j];
 
-                } else {
-                    board[i][j] = 0;
+                    } else {
+                        board[i][j] = 0;
+                    }
                 }
 
             }
@@ -120,13 +123,14 @@ public class Operation {
 
         for (int i = colIndex; i < colIndex + shape[0].length; i++) {
             for (int j = rowIndex; j < rowIndex + shape.length; j++) {
-                if (i == board[0].length - 2 || i == board[0].length - 1) {
-                    board[j][i - 1] = board[j][i];
-                    board[j][i] = 0;
-                } else {
-                    board[j][i - 1] = board[j][i];
-                    board[j][i] = board[j][i + 1];
-
+                if (shape[j - rowIndex][i - colIndex] == 1) {
+                    if (i == board[0].length - 2 || i == board[0].length - 1) {
+                        board[j][i - 1] = board[j][i];
+                        board[j][i] = 0;
+                    } else {
+                        board[j][i - 1] = board[j][i];
+                        board[j][i] = board[j][i + 1];
+                    }
                 }
             }
         }
@@ -144,12 +148,14 @@ public class Operation {
 
         for (int i = colIndex + shape[0].length - 1; i >= colIndex; i--) {
             for (int j = rowIndex; j < rowIndex + shape.length; j++) {
-                if (i == 1 || i == 0) {
-                    board[j][i + 1] = board[j][i];
-                    board[j][i] = 0;
-                } else {
-                    board[j][i + 1] = board[j][i];
-                    board[j][i] = board[j][i - 1];
+                if (shape[j - rowIndex][i - colIndex] == 1) {
+                    if (i == 1 || i == 0) {
+                        board[j][i + 1] = board[j][i];
+                        board[j][i] = 0;
+                    } else {
+                        board[j][i + 1] = board[j][i];
+                        board[j][i] = board[j][i - 1];
+                    }
                 }
             }
         }
@@ -196,7 +202,7 @@ public class Operation {
             rowIndex++;
             if (showWhileMoving) {
                 Tetris.displayBoard(board, "");
-                Thread.sleep(5);
+                Thread.sleep(20);
             }
         }
     }
