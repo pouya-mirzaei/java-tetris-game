@@ -54,7 +54,20 @@ public class Menu {
                  3. Exit the game
                 Select an option to continue=>""", true
         );
-        byte option = sc.nextByte();
+        boolean isInputValid = false;
+        byte option = 0;
+        do {
+
+            try {
+                option = sc.nextByte();
+                isInputValid = true;
+
+            } catch (InputMismatchException imp) {
+                System.err.println("Wrong answer , try again ...");
+                sc.next();
+            }
+        } while (!isInputValid);
+
         selectMenuOption(option, 1);
     }
 
@@ -110,7 +123,7 @@ public class Menu {
         new HowToPlay().start();
     }
 
-    private void start() throws InterruptedException {
+    private void start() throws InterruptedException, IOException {
         byte itemSelected = showSubMenu(new String[]{"easy", "medium", "hard"}, "Select difficulty");
 
         // should check if the user is logged in ...

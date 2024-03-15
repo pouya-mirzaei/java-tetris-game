@@ -46,14 +46,16 @@ public class Tetris {
         logger.type(message, true);
     }
 
-    public void startGame(byte difficulty) throws InterruptedException {
+    public void startGame(byte difficulty) throws InterruptedException, IOException {
         RandomShape randomShape = new RandomShape(difficulty);
 
         while (true) {
             String message = boardCheck.analyze(board);
 
             if (isGameOver) {
-                displayBoard(board, "you suck at this game bitch\nYour score is negative so you lost you fucking idiot");
+                displayBoard(board, "Game Over! You have lost the game. Returning you to the main menu...");
+                Thread.sleep(3000);
+                new Menu().showMainMenu("What a shame to lose , wanna try again ?");
                 break;
             }
             int[][] newShape = randomShape.generateShape();
@@ -137,6 +139,6 @@ public class Tetris {
                 board[i][j] = shape[i][j - startingIndex];
         }
     }
-    
+
 
 }
