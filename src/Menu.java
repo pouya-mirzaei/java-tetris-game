@@ -1,9 +1,10 @@
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
+    static Scanner sc = Main.sc;
     Typewriter logger = new Typewriter(5);
-    Scanner sc = Main.sc;
 
     public static void clearScreen() {
         try {
@@ -19,13 +20,37 @@ public class Menu {
         }
     }
 
+    public static int getInput(String message, int result) {
+        System.out.println(message);
+        try {
+            result = sc.nextInt();
+        } catch (InputMismatchException ime) {
+            System.out.println("Wrong input , try again ...");
+            result = getInput(message, result);
+        }
+
+        return result;
+    }
+
+    public static String getInput(String message, String result) {
+        System.out.println(message);
+        try {
+            result = sc.next();
+        } catch (InputMismatchException ime) {
+            System.out.println("Wrong input , try again ...");
+            result = getInput(message, result);
+        }
+
+        return result;
+    }
+
     public void showMainMenu(String message) throws IOException, InterruptedException {
         clearScreen();
         logger.type(message, true);
 
         logger.type("""
                  1. Start
-                 2. Scoreboard
+                 2. How to play
                  3. Exit the game
                 Select an option to continue=>""", true
         );
@@ -61,8 +86,7 @@ public class Menu {
                         start();
                         break;
                     case 2:
-                        showScoreboard();
-                        break;
+                        howToPlay();
                     case 3:
                         break;
                     default:
@@ -82,9 +106,8 @@ public class Menu {
         }
     }
 
-    private void showScoreboard() throws InterruptedException {
-        clearScreen();
-        logger.type("scoreboard", true);
+    private void howToPlay() throws InterruptedException, IOException {
+        new HowToPlay().start();
     }
 
     private void start() throws InterruptedException {
@@ -96,6 +119,5 @@ public class Menu {
         game.startGame(itemSelected);
 
     }
-
 
 }

@@ -10,7 +10,7 @@ public class Tetris {
     private static final int extraGap = 2;
     private static final int totalRows = rows + maxHeight + extraGap;
     public static boolean isGameOver = false;
-    static Typewriter logger = new Typewriter(10);
+    static Typewriter logger = new Typewriter(15);
     private final int[][] board = new int[totalRows][columns];
     Operation op = new Operation();
     Scanner sc = Main.sc;
@@ -137,6 +137,6 @@ public class Tetris {
                 board[i][j] = shape[i][j - startingIndex];
         }
     }
-
+    
 
 }

@@ -75,7 +75,7 @@ public class AnalyzeBoard {
         for (int i = 0; i < board.length - 1; i++) {
             board[i][colIndex] = 0;
         }
-        addScore(-10);
+        addScore(-50);
     }
 
 
