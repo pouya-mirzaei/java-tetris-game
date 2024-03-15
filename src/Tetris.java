@@ -55,6 +55,8 @@ public class Tetris {
             if (isGameOver) {
                 displayBoard(board, "Game Over! You have lost the game. Returning you to the main menu...");
                 Thread.sleep(3000);
+                AnalyzeBoard.score= 0;
+                isGameOver=false;
                 new Menu().showMainMenu("What a shame to lose , wanna try again ?");
                 break;
             }
